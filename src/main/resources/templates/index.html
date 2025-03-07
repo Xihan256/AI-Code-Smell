@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码审计系统</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        li {
+            background: white;
+            margin: 5px auto;
+            padding: 10px;
+            width: 50%;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div>
+        <span/>
+        <button onclick="document.getElementById('zipUpload').click()">登录</button>
+        <button onclick="document.getElementById('docxUpload').click()">退出</button>
+    </div>
+    <h2>欢迎使用代码审计系统</h2>
+    <input type="file" id="zipUpload" accept=".zip">
+    <input type="file" id="docxUpload" accept=".docx">
+    <button onclick="document.getElementById('zipUpload').click()">上传代码压缩包(zip, rar)</button>
+    <button onclick="document.getElementById('docxUpload').click()">上传审计文档(doc, docx)</button>
+    <p>
+        <button onclick="document.getElementById('docxUpload').click()">提交订单</button>
+    </p>
+
+    <h2>历史订单</h2>
+    <ul id="fileList">
+        <li>
+            <div>
+                2025-1-10
+                <button>下载结果</button>
+                <button>在线查看</button>
+                <button>删除记录</button>
+            </div>
+        </li>
+    </ul>
+
+    <h2>未支付订单</h2>
+    <ul id="unpayedList">
+        <li>
+            <div>
+                2025-1-10
+                <button>支付订单</button>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<script>
+    function handleFileUpload(input) {
+        // const file = input.files[0];
+        // if (file) {
+        //     const listItem = document.createElement("li");
+        //     listItem.textContent = file.name;
+        //     document.getElementById("fileList").appendChild(listItem);
+        // }
+    }
+
+    document.getElementById("zipUpload").addEventListener("change", function() {
+        handleFileUpload(this);
+    });
+
+    document.getElementById("docxUpload").addEventListener("change", function() {
+        handleFileUpload(this);
+    });
+</script>
+
+</body>
+</html>
