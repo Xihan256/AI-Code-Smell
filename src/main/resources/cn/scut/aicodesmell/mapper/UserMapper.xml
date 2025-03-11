@@ -1,0 +1,21 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.scut.aicodesmell.mapper.UserMapper">
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userEntity.userId">
+        INSERT INTO user(user_name, `password`)
+        VALUES (#{userEntity.userName}, #{userEntity.password})
+    </insert>
+
+    <select id="getByName" parameterType="java.lang.String" resultType="cn.scut.aicodesmell.common.UserEntity">
+        SELECT user_id, user_name, `password`
+        FROM `user`
+        WHERE user_name = #{userName}
+          AND deleted = FALSE
+    </select>
+
+    <update id="deleteUser">
+        UPDATE user
+        SET deleted = 1
+        WHERE user_id = #{userId}
+    </update>
+</mapper>

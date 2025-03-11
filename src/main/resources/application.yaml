@@ -5,26 +5,17 @@ spring:
   datasource:
     username: root
     password: Sheep233
-    url: jdbc:mysql://localhost:3306
+    url: jdbc:mysql://localhost:3306/ai_code_smell
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 20
       connection-test-query: select 1;
-
-  thymeleaf:
-    cache: false
-    mode: HTML
-    prefix: file:src/main/resources/templates/
-    encoding: UTF-8
-    servlet:
-      content-type: text/html
-
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+      mode: always
 
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
-
-
-big-model:
-  api-key: d1869f1ee71a1706f0c0ddfb26f4e031.2XtgR3xBMoAomlqi
