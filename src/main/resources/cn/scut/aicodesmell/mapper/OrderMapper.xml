@@ -1,0 +1,38 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.scut.aicodesmell.mapper.OrderMapper">
+    <insert id="insertOrder">
+        INSERT INTO process_order(order_id, user_id)
+        VALUES (#{orderId}, #{userId})
+    </insert>
+
+    <select id="getOrderById" resultType="cn.scut.aicodesmell.common.OrderEntity">
+        SELECT order_id, user_id, create_time, order_status, doc_url, code_url, result_url
+        FROM process_order
+        WHERE order_id = #{orderId}
+          AND deleted = FALSE
+    </select>
+
+    <update id="deleteOrder">
+        UPDATE process_order
+        SET deleted = 1
+        WHERE order_id = #{orderId}
+          AND deleted = FALSE
+    </update>
+
+    <select id="getUserOrderCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM process_order
+        WHERE user_id = #{userId}
+          AND deleted = FALSE
+    </select>
+
+    <select id="batchGetOrderByPage" resultType="cn.scut.aicodesmell.common.OrderEntity">
+        SELECT order_id, user_id, create_time, order_status, doc_url, code_url, result_url
+        FROM process_order
+        WHERE user_id = #{userId}
+          AND deleted = FALSE
+        ORDER BY create_time
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+</mapper>

@@ -1,4 +1,4 @@
-package cn.scut.aicodesmell.spock
+package cn.scut.aicodesmell.service
 
 import cn.scut.aicodesmell.common.UserEntity
 import cn.scut.aicodesmell.common.dto.UserDto
@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpSession
 import spock.lang.Specification
 
-class UserServiceTest extends Specification {
+class UserServiceTestSpock extends Specification {
 
     def userMapper = Mock(UserMapper)
 
