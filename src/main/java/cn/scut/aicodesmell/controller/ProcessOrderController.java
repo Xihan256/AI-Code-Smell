@@ -62,13 +62,13 @@ public class ProcessOrderController {
     }
 
     @GetMapping("/download/result")
-    public ResponseEntity<?> downloadResult(@RequestParam("orderId") String orderId, @RequestParam("fileName") String fileName){
+    public ResponseEntity<?> downloadResult(@RequestParam("orderId") String orderId, @RequestParam("fileName") String fileName) {
         String downloadPath = System.getProperty("user.dir") + "/" + downloadFilePath;
         return processOrderService.downloadFile(downloadPath + fileName, orderId);
     }
 
     @GetMapping("/download/source")
-    public ResponseEntity<?> downloadSource(@RequestParam("orderId") String orderId, @RequestParam("fileName") String fileName){
+    public ResponseEntity<?> downloadSource(@RequestParam("orderId") String orderId, @RequestParam("fileName") String fileName) {
         String uploadPath = System.getProperty("user.dir") + "/" + uploadFilePath;
         return processOrderService.downloadFile(uploadPath + fileName, orderId);
     }

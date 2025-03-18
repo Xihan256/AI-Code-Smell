@@ -75,8 +75,8 @@ public class ArDoCoCore implements ITaskHandler {
         File outputFile = outputDir.resolve(fileName).toFile();
 
         try (BufferedWriter writer = Files.newBufferedWriter(outputDir.resolve(fileName), StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
-           // writer.write("Files.newBufferedWriter Example\n");
-            if(Objects.nonNull(recommendationStates)){
+            // writer.write("Files.newBufferedWriter Example\n");
+            if (Objects.nonNull(recommendationStates)) {
                 writer.write("recommendation states\n");
                 RecommendationStateImpl code = recommendationStates.getRecommendationState(Metamodel.CODE);
                 RecommendationStateImpl architecture = recommendationStates.getRecommendationState(Metamodel.ARCHITECTURE);
@@ -85,7 +85,7 @@ public class ArDoCoCore implements ITaskHandler {
                 for (RecommendedInstance recommendedInstance : code.getRecommendedInstances()) {
                     writer.write(recommendedInstance.toString());
                 }
-                if(!code.getLastAppliedConfiguration().isEmpty()){
+                if (!code.getLastAppliedConfiguration().isEmpty()) {
                     writer.write("last applied configuration:\n");
                     writer.write(code.getLastAppliedConfiguration().toString());
                 }
@@ -95,12 +95,12 @@ public class ArDoCoCore implements ITaskHandler {
                 for (RecommendedInstance recommendedInstance : architecture.getRecommendedInstances()) {
                     writer.write(recommendedInstance.toString());
                 }
-                if(!architecture.getLastAppliedConfiguration().isEmpty()){
+                if (!architecture.getLastAppliedConfiguration().isEmpty()) {
                     writer.write("last applied configuration:\n");
                     writer.write(code.getLastAppliedConfiguration().toString());
                 }
             }
-            if(Objects.nonNull(modelStatesData)){
+            if (Objects.nonNull(modelStatesData)) {
                 writer.write("\nmodel states\n");
                 for (String modelId : modelStatesData.modelIds()) {
                     ModelExtractionState modelState = modelStatesData.getModelState(modelId);
@@ -108,7 +108,7 @@ public class ArDoCoCore implements ITaskHandler {
                     writer.write(modelState.toString() + "\n");
                 }
             }
-            if(Objects.nonNull(connectionStates)){
+            if (Objects.nonNull(connectionStates)) {
                 writer.write("\nconnection states\n");
                 ConnectionStateImpl code = connectionStates.getConnectionState(Metamodel.CODE);
                 ConnectionStateImpl architecture = connectionStates.getConnectionState(Metamodel.ARCHITECTURE);
@@ -118,7 +118,7 @@ public class ArDoCoCore implements ITaskHandler {
                 for (InstanceLink instanceLink : code.getInstanceLinks()) {
                     writer.write(instanceLink.toString() + "\n");
                 }
-                if(!code.getLastAppliedConfiguration().isEmpty()){
+                if (!code.getLastAppliedConfiguration().isEmpty()) {
                     writer.write("last applied configuration:\n");
                     writer.write(code.getLastAppliedConfiguration().toString());
                 }
@@ -128,7 +128,7 @@ public class ArDoCoCore implements ITaskHandler {
                 for (InstanceLink instanceLink : architecture.getInstanceLinks()) {
                     writer.write(instanceLink.toString() + "\n");
                 }
-                if(!architecture.getLastAppliedConfiguration().isEmpty()){
+                if (!architecture.getLastAppliedConfiguration().isEmpty()) {
                     writer.write("last applied configuration:\n");
                     writer.write(code.getLastAppliedConfiguration().toString());
                 }

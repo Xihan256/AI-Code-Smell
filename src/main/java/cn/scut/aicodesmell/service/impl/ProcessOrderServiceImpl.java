@@ -123,11 +123,11 @@ public class ProcessOrderServiceImpl implements ProcessOrderService {
     @Override
     public ResponseEntity<?> downloadFile(String path, String orderId) {
         File file = new File(path);
-        if(!file.exists()){
+        if (!file.exists()) {
             return ResponseEntity.status(HttpStatus.OK).body(Results.paramWrong("文件不存在"));
         }
         String fileOrderId = file.getName().substring(0, file.getName().lastIndexOf('.'));
-        if(!orderId.equals(fileOrderId)){
+        if (!orderId.equals(fileOrderId)) {
             return ResponseEntity.status(HttpStatus.OK).body(Results.paramWrong("文件不存在"));
         }
 

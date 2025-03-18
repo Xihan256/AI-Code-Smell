@@ -24,7 +24,7 @@ public class ResultToPDF implements ITaskHandler {
 
         //输出pdf
         Document document = new Document();
-        try(FileInputStream inputStream  = new FileInputStream(ardocoResult)) {
+        try (FileInputStream inputStream = new FileInputStream(ardocoResult)) {
             finalResult.createNewFile();
             PdfWriter.getInstance(document, new FileOutputStream(path));
             document.open();
@@ -39,7 +39,7 @@ public class ResultToPDF implements ITaskHandler {
 
         } catch (DocumentException | IOException e) {
             throw new CoreTaskException(context.getProjectId());
-        }finally {
+        } finally {
             document.close();
         }
 

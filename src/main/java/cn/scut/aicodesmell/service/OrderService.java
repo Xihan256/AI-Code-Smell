@@ -1,7 +1,6 @@
 package cn.scut.aicodesmell.service;
 
 import cn.scut.aicodesmell.common.response.Result;
-import org.springframework.http.ResponseEntity;
 
 /**
  * @author wanghy

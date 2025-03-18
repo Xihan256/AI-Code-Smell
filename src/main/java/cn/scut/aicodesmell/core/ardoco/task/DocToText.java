@@ -6,7 +6,10 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -16,7 +19,7 @@ import java.nio.file.StandardOpenOption;
  */
 public class DocToText implements ITaskHandler {
 
-    private String uploadPath = System.getProperty("user.dir") + "/" + "data/files/upload/";
+    private String uploadPath = System.getProperty("user.dir") + "/data/files/upload/";
 
     @Override
     public void handle(TaskContext context) {
@@ -25,7 +28,7 @@ public class DocToText implements ITaskHandler {
 
         //todo 其实这里还没完成. 可能会有翻译成英文或者提取doc核心内容的工作
         String text;
-        if(".doc".equals(extension)){
+        if (".doc".equals(extension)) {
             try (FileInputStream fis = new FileInputStream(doc)) {
                 HWPFDocument document = new HWPFDocument(fis);
                 WordExtractor extractor = new WordExtractor(document);
@@ -34,16 +37,16 @@ public class DocToText implements ITaskHandler {
                 e.printStackTrace();
                 throw new CoreTaskException(context.getProjectId());
             }
-        }else if(".docx".equals(extension)){
-            try (FileInputStream fis = new FileInputStream(doc)){
-                 XWPFDocument docx = new XWPFDocument(fis);
-                 XWPFWordExtractor extractor = new XWPFWordExtractor(docx);
+        } else if (".docx".equals(extension)) {
+            try (FileInputStream fis = new FileInputStream(doc)) {
+                XWPFDocument docx = new XWPFDocument(fis);
+                XWPFWordExtractor extractor = new XWPFWordExtractor(docx);
                 text = extractor.getText();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new CoreTaskException(context.getProjectId());
             }
-        }else{
+        } else {
             throw new CoreTaskException(context.getProjectId());
         }
 
