@@ -15,6 +15,14 @@ public class Results {
         return new Result(message, null, 40001);
     }
 
+    public static Result fileWrong() {
+        return new Result("文件为空", null, 40001);
+    }
+
+    public static Result fileNotUploaded() {
+        return new Result("查询的订单未上传代码和文档", null, 40001);
+    }
+
     public static Result userNameError(String message) {
         return new Result(message, null, 40002);
     }

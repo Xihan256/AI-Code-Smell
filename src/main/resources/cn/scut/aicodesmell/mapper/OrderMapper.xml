@@ -35,4 +35,54 @@
         ORDER BY create_time
         LIMIT #{limit} OFFSET #{offset}
     </select>
+
+    <update id="batchDeleteExpiredOrder">
+        UPDATE process_order
+        SET deleted = 1
+        WHERE create_time >= DATE_SUB(CURDATE(), INTERVAL #{differentDays} DAY)
+          AND deleted = FALSE
+    </update>
+
+    <update id="updateCodeFilePath">
+        UPDATE process_order
+        SET code_url = #{path}
+        WHERE order_id = #{orderId}
+          AND deleted = FALSE
+    </update>
+
+    <update id="updateDocFilePath">
+        UPDATE process_order
+        SET doc_url = #{path}
+        WHERE order_id = #{orderId}
+          AND deleted = FALSE
+    </update>
+
+    <select id="getOrderStatus" resultType="java.lang.String">
+        SELECT order_status
+        FROM process_order
+        WHERE order_id = #{orderId}
+          AND deleted = FALSE
+    </select>
+
+    <select id="getExpiredOrders" resultType="cn.scut.aicodesmell.common.OrderEntity">
+        SELECT order_id, user_id, create_time, order_status, doc_url, code_url, result_url
+        FROM process_order
+        WHERE create_time >= DATE_SUB(CURDATE(), INTERVAL #{differentDays} DAY)
+          AND deleted = FALSE
+    </select>
+
+    <update id="setStatusByProjectId">
+        UPDATE process_order
+        SET order_status = #{status}
+        WHERE order_id = #{orderId}
+          AND deleted = FALSE
+    </update>
+
+    <update id="setResultUrl">
+        UPDATE process_order
+        SET result_url   = #{resultUrl},
+            order_status = 'finished'
+        WHERE order_id = #{orderId}
+          AND deleted = FALSE
+    </update>
 </mapper>
