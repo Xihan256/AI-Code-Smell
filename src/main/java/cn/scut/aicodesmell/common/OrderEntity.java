@@ -20,4 +20,5 @@ public class OrderEntity {
     private String docUrl;
     private String codeUrl;
     private String resultUrl;
+    private String mainPackage;
 }

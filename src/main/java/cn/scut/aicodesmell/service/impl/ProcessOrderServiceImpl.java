@@ -3,6 +3,7 @@ package cn.scut.aicodesmell.service.impl;
 import cn.scut.aicodesmell.common.OrderEntity;
 import cn.scut.aicodesmell.common.response.Result;
 import cn.scut.aicodesmell.common.response.Results;
+import cn.scut.aicodesmell.config.CacheConfig;
 import cn.scut.aicodesmell.core.Processor;
 import cn.scut.aicodesmell.mapper.OrderMapper;
 import cn.scut.aicodesmell.service.ProcessOrderService;
@@ -38,6 +39,9 @@ public class ProcessOrderServiceImpl implements ProcessOrderService {
 
     @Autowired
     private Map<String, Processor> processors;
+
+    @Autowired
+    private CacheConfig cacheConfig;
 
     @Value("${file-save.upload}")
     private String uploadFilePath;
@@ -115,6 +119,7 @@ public class ProcessOrderServiceImpl implements ProcessOrderService {
         }
 
         //处理任务开始
+        cacheConfig.setMainPackageCache(orderId, orderEntity.getMainPackage());
         Processor processor = processors.get(algorithm);
         processor.generateResult(orderEntity.getDocUrl(), orderEntity.getCodeUrl());
         return Results.ok("已提交任务");

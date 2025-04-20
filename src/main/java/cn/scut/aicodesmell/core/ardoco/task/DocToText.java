@@ -25,8 +25,6 @@ public class DocToText implements ITaskHandler {
     public void handle(TaskContext context) {
         File doc = context.getDoc();
         String extension = doc.getName().substring(doc.getName().lastIndexOf('.'));
-
-        //todo 其实这里还没完成. 可能会有翻译成英文或者提取doc核心内容的工作
         String text;
         if (".doc".equals(extension)) {
             try (FileInputStream fis = new FileInputStream(doc)) {

@@ -1,5 +1,6 @@
 package cn.scut.aicodesmell.core.ardoco;
 
+import cn.scut.aicodesmell.config.CacheConfig;
 import cn.scut.aicodesmell.core.Processor;
 import cn.scut.aicodesmell.core.ardoco.task.*;
 import cn.scut.aicodesmell.mapper.OrderMapper;
@@ -33,6 +34,9 @@ public class ArDoCoProcessor implements Processor {
     @Autowired
     private OrderMapper orderMapper;
 
+    @Autowired
+    private CacheConfig cacheConfig;
+
     @Override
     public void generateResult(String docUrl, String codeUrl) {
         Runnable task = () -> {
@@ -49,6 +53,7 @@ public class ArDoCoProcessor implements Processor {
             File doc = new File(uploadPath + docUrl);
             File code = new File(uploadPath + codeUrl);
             TaskContext context = new TaskContext(doc, code, projectId);
+            context.setMainPackage(cacheConfig.getMainPackageCache(projectId));
 
             arDoCoPipeline.execute(context);
 
@@ -67,8 +72,8 @@ public class ArDoCoProcessor implements Processor {
     }
 
 //    public static void main(String[] args) {
-//        String docUrl = "jabref.doc";
-//        String codeUrl = "jabref.repository";
+//        String docUrl = "teammates.doc";
+//        String codeUrl = "teammates.zip";
 //
 //        String projectId = docUrl.substring(0, docUrl.lastIndexOf('.'));
 //        //使用ArDoCo管道运行
@@ -83,6 +88,7 @@ public class ArDoCoProcessor implements Processor {
 //        File doc = new File(uploadPath + docUrl);
 //        File code = new File(uploadPath + codeUrl);
 //        TaskContext context = new TaskContext(doc, code, projectId);
+//        context.setMainPackage("teammates");
 //
 //        arDoCoPipeline.execute(context);
 //
