@@ -148,7 +148,7 @@ public class CodeToPCM implements ITaskHandler {
             process.waitFor();
 
             File acdc = new File(outDir + "/acdc/acdc_clustered.rsf");
-            Set<String> pkgs = processAcdc(acdc);
+            Set<String> pkgs = processAcdc(acdc, context);
             if (CollectionUtils.isEmpty(pkgs)) {
                 throw new RuntimeException("acdc数据为空");
             }
@@ -160,7 +160,7 @@ public class CodeToPCM implements ITaskHandler {
         context.setPcm(pcm);
     }
 
-    private Set<String> processAcdc(File acdc) {
+    private Set<String> processAcdc(File acdc, TaskContext context) {
         Set<String> pkgSet = ConcurrentHashMap.newKeySet();
         //并行处理acdc数据
         try (Stream<String> lines = Files.lines(acdc.toPath())) {
@@ -170,7 +170,10 @@ public class CodeToPCM implements ITaskHandler {
                     //把.ss 去掉, 那玩意没有用
                     String pkg = components[1].substring(0, components[1].lastIndexOf('.'));
                     String absolutePkg = pkg.substring(pkg.lastIndexOf('.') + 1);
-                    pkgSet.add(absolutePkg);
+                    if (!pkgSet.contains(absolutePkg)) {
+                        pkgSet.add(absolutePkg);
+                        context.getCodeComponent2CodePackageMap().put(absolutePkg, pkg);
+                    }
                 }
             });
         } catch (IOException e) {

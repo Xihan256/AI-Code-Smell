@@ -86,7 +86,8 @@ public class ProcessOrderServiceImpl implements ProcessOrderService {
 
         //save成功了, 把path存数据库里
         log.info("文件保存至: {}", path);
-        orderMapper.updateDocFilePath(orderId, path);
+        String originalFilename = file.getOriginalFilename();
+        orderMapper.updateDocFilePath(orderId, path, originalFilename);
         return Results.ok("上传成功");
     }
 
@@ -104,7 +105,7 @@ public class ProcessOrderServiceImpl implements ProcessOrderService {
     }
 
     @Override
-    public Result startProcessOrder(String orderId, Integer userId, String algorithm) {
+    public Result startProcessOrder(String orderId, Integer userId, String algorithm, String mainPackage) {
         OrderEntity orderEntity = orderMapper.getOrderById(orderId);
 
         //订单不存在
@@ -119,7 +120,7 @@ public class ProcessOrderServiceImpl implements ProcessOrderService {
         }
 
         //处理任务开始
-        cacheConfig.setMainPackageCache(orderId, orderEntity.getMainPackage());
+        cacheConfig.setMainPackageCache(orderId, mainPackage);
         Processor processor = processors.get(algorithm);
         processor.generateResult(orderEntity.getDocUrl(), orderEntity.getCodeUrl());
         return Results.ok("已提交任务");

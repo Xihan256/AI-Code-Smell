@@ -40,12 +40,13 @@ public interface ProcessOrderService {
     /**
      * 开始处理
      *
-     * @param orderId   订单id
-     * @param userId    用户id
-     * @param algorithm 指定的算法
+     * @param orderId     订单id
+     * @param userId      用户id
+     * @param algorithm   指定的算法
+     * @param mainPackage 要分析的主包
      * @return Result
      */
-    Result startProcessOrder(String orderId, Integer userId, String algorithm);
+    Result startProcessOrder(String orderId, Integer userId, String algorithm, String mainPackage);
 
     /**
      * 下载文件

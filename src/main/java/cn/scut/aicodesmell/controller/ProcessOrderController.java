@@ -54,11 +54,12 @@ public class ProcessOrderController {
     }
 
     @GetMapping("/start/{algorithm}")
-    public Result startOrder(@RequestParam("orderId") String orderId, @RequestParam("userId") Integer userId, @PathVariable String algorithm) {
+    public Result startOrder(@RequestParam("orderId") String orderId, @RequestParam("userId") Integer userId,
+                             @RequestParam("mainPackage") String mainPackage, @PathVariable String algorithm) {
         if (!ProcessTaskAlgorithmEnum.contains(algorithm)) {
             return Results.paramWrong("指定了不存在的算法");
         }
-        return processOrderService.startProcessOrder(orderId, userId, algorithm);
+        return processOrderService.startProcessOrder(orderId, userId, algorithm, mainPackage);
     }
 
     @GetMapping("/download/result")

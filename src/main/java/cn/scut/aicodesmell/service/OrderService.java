@@ -50,4 +50,13 @@ public interface OrderService {
      * @return Result
      */
     Result getOrderByPage(Integer userId, Integer total, Integer curPage, Integer pageSize);
+
+    /**
+     * 获取订单详细数据byId
+     *
+     * @param orderId orderId
+     * @param userId  userId
+     * @return Result
+     */
+    Result getOrderDetailById(String orderId, Integer userId);
 }

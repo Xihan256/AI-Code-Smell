@@ -49,4 +49,9 @@ public class OrderController {
     public Result getOrderByPage(@RequestParam("userId") Integer userId, @RequestParam("total") Integer total, @PathVariable Integer curPage, @PathVariable Integer pageSize) {
         return orderService.getOrderByPage(userId, total, curPage, pageSize);
     }
+
+    @GetMapping("/get_detail")
+    public Result getOrderByPage(@RequestParam("userId") Integer userId, @RequestParam("orderId") String orderId) {
+        return orderService.getOrderDetailById(orderId, userId);
+    }
 }

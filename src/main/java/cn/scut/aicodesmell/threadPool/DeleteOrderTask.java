@@ -1,6 +1,7 @@
 package cn.scut.aicodesmell.threadPool;
 
 import cn.scut.aicodesmell.common.OrderEntity;
+import cn.scut.aicodesmell.mapper.OrderDetailMapper;
 import cn.scut.aicodesmell.mapper.OrderMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,8 @@ public class DeleteOrderTask {
 
     @Autowired
     private OrderMapper orderMapper;
+
+    private OrderDetailMapper orderDetailMapper;
 
     @Value("${file-save.upload}")
     private String uploadFilePath;
@@ -73,7 +76,10 @@ public class DeleteOrderTask {
         }
 
         //批量删数据库
+        List<String> toDeleteIds = orderMapper.batchGetDeleteExpiredOrderIds(differentDays);
         orderMapper.batchDeleteExpiredOrder(differentDays);
+        //也删除detail表,数据一致性
+        orderDetailMapper.deleteByIds(toDeleteIds);
     }
 
     private static class ExpiredFileVisitor extends SimpleFileVisitor<Path> {

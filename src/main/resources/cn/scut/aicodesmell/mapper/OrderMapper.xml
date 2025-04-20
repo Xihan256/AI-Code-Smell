@@ -7,7 +7,16 @@
     </insert>
 
     <select id="getOrderById" resultType="cn.scut.aicodesmell.common.OrderEntity">
-        SELECT order_id, user_id, create_time, order_status, doc_url, code_url, result_url
+        SELECT order_id,
+               user_id,
+               order_name,
+               create_time,
+               order_status,
+               doc_url,
+               code_url,
+               result_url,
+               time_cost,
+               document_component
         FROM process_order
         WHERE order_id = #{orderId}
           AND deleted = FALSE
@@ -28,11 +37,20 @@
     </select>
 
     <select id="batchGetOrderByPage" resultType="cn.scut.aicodesmell.common.OrderEntity">
-        SELECT order_id, user_id, create_time, order_status, doc_url, code_url, result_url
+        SELECT order_id,
+               user_id,
+               order_name,
+               create_time,
+               order_status,
+               doc_url,
+               code_url,
+               result_url,
+               time_cost,
+               document_component
         FROM process_order
         WHERE user_id = #{userId}
           AND deleted = FALSE
-        ORDER BY create_time
+        ORDER BY create_time DESC
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
@@ -43,6 +61,13 @@
           AND deleted = FALSE
     </update>
 
+    <select id="batchGetDeleteExpiredOrderIds" resultType="java.lang.String">
+        SELECT order_id
+        FROM process_order
+        WHERE create_time >= DATE_SUB(CURDATE(), INTERVAL #{differentDays} DAY)
+          AND deleted = FALSE
+    </select>
+
     <update id="updateCodeFilePath">
         UPDATE process_order
         SET code_url = #{path}
@@ -52,7 +77,8 @@
 
     <update id="updateDocFilePath">
         UPDATE process_order
-        SET doc_url = #{path}
+        SET doc_url    = #{path},
+            order_name = #{orderName}
         WHERE order_id = #{orderId}
           AND deleted = FALSE
     </update>
@@ -78,10 +104,12 @@
           AND deleted = FALSE
     </update>
 
-    <update id="setResultUrl">
+    <update id="setResult">
         UPDATE process_order
-        SET result_url   = #{resultUrl},
-            order_status = 'finished'
+        SET result_url         = #{resultUrl},
+            order_status       = 'finished',
+            document_component = #{jsonComponentsInDocument},
+            time_cost          = #{timeCost}
         WHERE order_id = #{orderId}
           AND deleted = FALSE
     </update>

@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author wanghy
@@ -44,9 +46,15 @@ public class TaskContext {
      */
     private File finalResult;
 
+    /**
+     * 代码组件-代码包的map关系
+     */
+    private Map<String, String> codeComponent2CodePackageMap;
+
     public TaskContext(File doc, File code, String projectId) {
         this.doc = doc;
         this.code = code;
         this.projectId = projectId;
+        codeComponent2CodePackageMap = new HashMap<>();
     }
 }

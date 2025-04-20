@@ -1,17 +1,28 @@
 package cn.scut.aicodesmell.core.ardoco;
 
+import cn.scut.aicodesmell.common.MatchComponentEntity;
 import cn.scut.aicodesmell.config.CacheConfig;
 import cn.scut.aicodesmell.core.Processor;
 import cn.scut.aicodesmell.core.ardoco.task.*;
+import cn.scut.aicodesmell.mapper.OrderDetailMapper;
 import cn.scut.aicodesmell.mapper.OrderMapper;
+import com.alibaba.fastjson2.JSON;
+import edu.kit.kastel.mcse.ardoco.core.api.data.connectiongenerator.InstanceLink;
+import edu.kit.kastel.mcse.ardoco.core.api.data.model.Metamodel;
+import edu.kit.kastel.mcse.ardoco.core.api.data.recommendationgenerator.RecommendedInstance;
+import edu.kit.kastel.mcse.ardoco.core.connectiongenerator.ConnectionStateImpl;
+import edu.kit.kastel.mcse.ardoco.core.recommendationgenerator.RecommendationStateImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -35,12 +46,17 @@ public class ArDoCoProcessor implements Processor {
     private OrderMapper orderMapper;
 
     @Autowired
+    private OrderDetailMapper orderDetailMapper;
+
+    @Autowired
     private CacheConfig cacheConfig;
 
     @Override
     public void generateResult(String docUrl, String codeUrl) {
         Runnable task = () -> {
             String projectId = docUrl.substring(0, docUrl.lastIndexOf('.'));
+            StopWatch stopWatch = new StopWatch();
+            stopWatch.start();
             //使用ArDoCo管道运行
             ArDoCoPipeline arDoCoPipeline = new ArDoCoPipeline();
             arDoCoPipeline.addTask(new CodeToPCM())
@@ -64,7 +80,31 @@ public class ArDoCoProcessor implements Processor {
                 return;
             }
             String resultUrl = finalResult.getName();
-            orderMapper.setResultUrl(projectId, resultUrl);
+
+            //数据扫尾处理
+            stopWatch.stop();
+            long timeCost = stopWatch.getTotalTimeMillis();
+            RecommendationStateImpl rsArchitecture = context.getRecommendationStates().getRecommendationState(Metamodel.ARCHITECTURE);
+            //文档组件
+            List<String> componentsInDocument = new ArrayList<>();
+            for (RecommendedInstance recommendedInstance : rsArchitecture.getRecommendedInstances()) {
+                componentsInDocument.add(recommendedInstance.getName());
+            }
+
+            List<MatchComponentEntity> matchComponents = new ArrayList<>();
+            ConnectionStateImpl cSArchitecture = context.getConnectionStates().getConnectionState(Metamodel.ARCHITECTURE);
+            for (InstanceLink instanceLink : cSArchitecture.getInstanceLinks()) {
+                //code组件的名称
+                String name = instanceLink.getModelInstance().getFullName();
+                double probability = instanceLink.getProbability();
+                String codeComponent = context.getCodeComponent2CodePackageMap().get(name);
+                matchComponents.add(new MatchComponentEntity(name, probability, codeComponent));
+            }
+
+            //存上
+            String jsonComponentsInDocument = JSON.toJSONString(componentsInDocument);
+            orderMapper.setResult(projectId, resultUrl, jsonComponentsInDocument, timeCost);
+            orderDetailMapper.batchAdd(projectId, matchComponents);
         };
 
         //提交到线程池

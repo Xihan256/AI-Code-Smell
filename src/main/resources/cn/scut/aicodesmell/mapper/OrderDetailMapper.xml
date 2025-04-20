@@ -1,0 +1,34 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.scut.aicodesmell.mapper.OrderDetailMapper">
+    <insert id="batchAdd">
+        INSERT INTO order_detail(order_id, code_component, component_name, probability)
+        VALUES
+        <foreach collection="matchComponents" item="item" separator=",">
+            (#{projectId}, #{item.codeComponent}, #{item.name}, #{item.probability})
+        </foreach>
+    </insert>
+
+    <update id="deleteByIds">
+        UPDATE order_detail
+        SET deleted = 1
+        WHERE order_id IN (
+        <foreach collection="toDeleteIds" item="toDeleteId" separator=",">
+            #{toDeleteId}
+        </foreach>
+        );
+    </update>
+
+    <update id="deleteById">
+        UPDATE order_detail
+        SET deleted = 1
+        WHERE order_id = #{toDeleteId}
+    </update>
+
+    <select id="getByOrderId" resultType="cn.scut.aicodesmell.common.dto.OrderDetailDto">
+        SELECT order_id, code_component, component_name, probability
+        FROM order_detail
+        WHERE order_id = #{orderId}
+          AND deleted = FALSE;
+    </select>
+</mapper>

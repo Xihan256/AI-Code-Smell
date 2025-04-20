@@ -2,9 +2,11 @@ package cn.scut.aicodesmell.service.impl;
 
 import cn.scut.aicodesmell.common.OrderEntity;
 import cn.scut.aicodesmell.common.PageEntity;
+import cn.scut.aicodesmell.common.dto.OrderDetailDto;
 import cn.scut.aicodesmell.common.response.Result;
 import cn.scut.aicodesmell.common.response.Results;
 import cn.scut.aicodesmell.factory.PageFactory;
+import cn.scut.aicodesmell.mapper.OrderDetailMapper;
 import cn.scut.aicodesmell.mapper.OrderMapper;
 import cn.scut.aicodesmell.service.OrderService;
 import cn.scut.aicodesmell.util.SecurityUtils;
@@ -26,6 +28,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderMapper orderMapper;
+
+    @Autowired
+    private OrderDetailMapper orderDetailMapper;
 
     @Override
     public Result createOrder(Integer userId) {
@@ -53,6 +58,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         orderMapper.deleteOrder(orderId);
+        orderDetailMapper.deleteById(orderId);
         return Results.ok("已删除");
     }
 
@@ -65,7 +71,6 @@ public class OrderServiceImpl implements OrderService {
             log.info("查询的订单不存在或不属于用户, orderId: {}, userId: {}", orderId, userId);
             return Results.paramWrong("查询的订单不存在或不属于用户");
         }
-
 
         Object json = JSON.toJSON(orderEntity);
         return Results.ok(json);
@@ -80,6 +85,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Result getOrderByPage(Integer userId, Integer total, Integer curPage, Integer pageSize) {
         PageFactory.PagePO pageHelper = PageFactory.pageHelper(curPage, pageSize);
+        total = orderMapper.getUserOrderCount(userId);
         PageEntity<OrderEntity> objectPageEntity = PageFactory.buildPage(total, curPage, pageSize);
 
         //查询
@@ -89,5 +95,19 @@ public class OrderServiceImpl implements OrderService {
         }
         objectPageEntity.setData(orders);
         return Results.ok(JSON.toJSON(objectPageEntity));
+    }
+
+    @Override
+    public Result getOrderDetailById(String orderId, Integer userId) {
+        OrderEntity orderEntity = orderMapper.getOrderById(orderId);
+
+        //订单不存在
+        if (Objects.isNull(orderEntity) || !userId.equals(orderEntity.getUserId())) {
+            log.info("查询的订单不存在或不属于用户, orderId: {}, userId: {}", orderId, userId);
+            return Results.paramWrong("查询的订单不存在或不属于用户");
+        }
+
+        List<OrderDetailDto> componentEntities = orderDetailMapper.getByOrderId(orderId);
+        return Results.ok(JSON.toJSON(componentEntities));
     }
 }
