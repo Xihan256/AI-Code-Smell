@@ -4,15 +4,21 @@ import cn.scut.aicodesmell.common.MatchComponentEntity;
 import cn.scut.aicodesmell.config.CacheConfig;
 import cn.scut.aicodesmell.core.Processor;
 import cn.scut.aicodesmell.core.ardoco.task.*;
+import cn.scut.aicodesmell.mapper.ComponentDocPhrasesMapper;
 import cn.scut.aicodesmell.mapper.OrderDetailMapper;
 import cn.scut.aicodesmell.mapper.OrderMapper;
 import com.alibaba.fastjson2.JSON;
 import edu.kit.kastel.mcse.ardoco.core.api.data.connectiongenerator.InstanceLink;
 import edu.kit.kastel.mcse.ardoco.core.api.data.model.Metamodel;
 import edu.kit.kastel.mcse.ardoco.core.api.data.recommendationgenerator.RecommendedInstance;
+import edu.kit.kastel.mcse.ardoco.core.api.data.text.Phrase;
+import edu.kit.kastel.mcse.ardoco.core.api.data.textextraction.MappingKind;
+import edu.kit.kastel.mcse.ardoco.core.api.data.textextraction.NounMapping;
 import edu.kit.kastel.mcse.ardoco.core.connectiongenerator.ConnectionStateImpl;
 import edu.kit.kastel.mcse.ardoco.core.recommendationgenerator.RecommendationStateImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.collections.api.list.ImmutableList;
+import org.eclipse.collections.api.set.ImmutableSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,9 +27,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author wanghy
@@ -35,6 +40,10 @@ public class ArDoCoProcessor implements Processor {
     @Autowired
     @Qualifier("processOrderThreadPool")
     private ThreadPoolTaskExecutor processOrderThreadPool;
+
+    @Autowired
+    @Qualifier("TaskPostProcessPool")
+    private ThreadPoolTaskExecutor TaskPostProcessPool;
 
     @Value("${file-save.upload}")
     private String uploadFilePath;
@@ -49,7 +58,18 @@ public class ArDoCoProcessor implements Processor {
     private OrderDetailMapper orderDetailMapper;
 
     @Autowired
+    private ComponentDocPhrasesMapper componentDocPhrasesMapper;
+
+    @Autowired
     private CacheConfig cacheConfig;
+
+    /*
+        割词的时候避免把缩写当一句割开了
+     */
+    private static final Set<String> COMMON_ABBREVIATIONS = Set.of(
+            "Mr.", "Mrs.", "Ms.", "Dr.", "Prof.", "Sr.", "Jr.",
+            "e.g.", "i.e.", "etc.", "vs.", "Fig.", "U.S.", "Inc."
+    );
 
     @Override
     public void generateResult(String docUrl, String codeUrl) {
@@ -86,10 +106,28 @@ public class ArDoCoProcessor implements Processor {
             long timeCost = stopWatch.getTotalTimeMillis();
             RecommendationStateImpl rsArchitecture = context.getRecommendationStates().getRecommendationState(Metamodel.ARCHITECTURE);
             //文档组件
-            List<String> componentsInDocument = new ArrayList<>();
+            Set<String> componentsInDocument = new HashSet<>();
             for (RecommendedInstance recommendedInstance : rsArchitecture.getRecommendedInstances()) {
                 componentsInDocument.add(recommendedInstance.getName());
             }
+            //异步执行文本后处理任务
+            CompletableFuture<Void> postProcessTask = CompletableFuture.runAsync(() -> {
+                //得到割好的句子, 和文档得到的组件构建关系
+                for (RecommendedInstance recommendedInstance : rsArchitecture.getRecommendedInstances()) {
+                    ImmutableList<NounMapping> typeMappings = recommendedInstance.getTypeMappings();
+                    for (NounMapping nounMapping : typeMappings) {
+                        double confidence = nounMapping.getDistribution().get(MappingKind.TYPE).getConfidence();
+                        //设定可信度标准, 避免垃圾数据太多
+                        if (confidence >= 0.5) {
+                            ImmutableSet<Phrase> phrases = nounMapping.getPhrases();
+                            List<String> phrasesMatching = new ArrayList<>();
+                            phrases.forEach(p -> phrasesMatching.add(p.getText()));
+                            //添加到数据库
+                            componentDocPhrasesMapper.batchAdd(context.getProjectId(), recommendedInstance.getName(), phrasesMatching);
+                        }
+                    }
+                }
+            }, TaskPostProcessPool);
 
             List<MatchComponentEntity> matchComponents = new ArrayList<>();
             ConnectionStateImpl cSArchitecture = context.getConnectionStates().getConnectionState(Metamodel.ARCHITECTURE);
@@ -105,6 +143,7 @@ public class ArDoCoProcessor implements Processor {
             String jsonComponentsInDocument = JSON.toJSONString(componentsInDocument);
             orderMapper.setResult(projectId, resultUrl, jsonComponentsInDocument, timeCost);
             orderDetailMapper.batchAdd(projectId, matchComponents);
+            postProcessTask.join();
         };
 
         //提交到线程池

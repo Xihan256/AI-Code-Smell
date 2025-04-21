@@ -31,4 +31,14 @@ CREATE TABLE IF NOT EXISTS order_detail
     probability    DOUBLE       NULL COMMENT '匹配率',
     deleted        TINYINT      NOT NULL DEFAULT 0,
     index idx_order_id (order_id)
-)
+);
+
+CREATE TABLE IF NOT EXISTS component_doc_phrases
+(
+    phrase_id      BIGINT       NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    order_id       CHAR(64)     NOT NULL,
+    component_name VARCHAR(128) NULL COMMENT '匹配上的组件名称',
+    phrase         TEXT         NOT NULL,
+    # 联合索引
+    index idx_order_name (order_id, component_name)
+);
