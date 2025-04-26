@@ -1,12 +1,18 @@
 package cn.scut.aicodesmell.service.impl;
 
+import cn.scut.aicodesmell.common.MatchEntity;
+import cn.scut.aicodesmell.common.OrderDetailedDto;
 import cn.scut.aicodesmell.common.OrderEntity;
+import cn.scut.aicodesmell.common.dto.OrderDetailDto;
 import cn.scut.aicodesmell.common.response.Result;
 import cn.scut.aicodesmell.common.response.Results;
 import cn.scut.aicodesmell.config.CacheConfig;
 import cn.scut.aicodesmell.core.Processor;
+import cn.scut.aicodesmell.mapper.ComponentDocPhrasesMapper;
+import cn.scut.aicodesmell.mapper.OrderDetailMapper;
 import cn.scut.aicodesmell.mapper.OrderMapper;
 import cn.scut.aicodesmell.service.ProcessOrderService;
+import com.alibaba.fastjson2.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author wanghy
@@ -36,6 +40,12 @@ public class ProcessOrderServiceImpl implements ProcessOrderService {
 
     @Autowired
     private OrderMapper orderMapper;
+
+    @Autowired
+    private OrderDetailMapper orderDetailMapper;
+
+    @Autowired
+    private ComponentDocPhrasesMapper componentDocPhrasesMapper;
 
     @Autowired
     private Map<String, Processor> processors;
@@ -87,7 +97,7 @@ public class ProcessOrderServiceImpl implements ProcessOrderService {
         //save成功了, 把path存数据库里
         log.info("文件保存至: {}", path);
         String originalFilename = file.getOriginalFilename();
-        orderMapper.updateDocFilePath(orderId, path, originalFilename);
+        orderMapper.updateDocFilePath(orderId, path, originalFilename.substring(0, originalFilename.lastIndexOf('.')));
         return Results.ok("上传成功");
     }
 
@@ -123,6 +133,7 @@ public class ProcessOrderServiceImpl implements ProcessOrderService {
         cacheConfig.setMainPackageCache(orderId, mainPackage);
         Processor processor = processors.get(algorithm);
         processor.generateResult(orderEntity.getDocUrl(), orderEntity.getCodeUrl());
+        orderMapper.updateStatusToProcessing(orderId);
         return Results.ok("已提交任务");
     }
 
@@ -150,6 +161,53 @@ public class ProcessOrderServiceImpl implements ProcessOrderService {
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(fileBytes);
+    }
+
+    @Override
+    public Result getOrderDetail(String orderId) {
+        OrderEntity entity = orderMapper.getOrderById(orderId);
+        if (Objects.isNull(entity) || !"finished".equals(entity.getOrderStatus())) {
+            throw new RuntimeException("order不存在");
+        }
+        OrderDetailedDto orderDetailedDto = new OrderDetailedDto();
+        orderDetailedDto.setOrderId(entity.getOrderId());
+        orderDetailedDto.setOrderName(entity.getOrderName());
+        orderDetailedDto.setUserId(entity.getUserId());
+        orderDetailedDto.setCreateTime(entity.getCreateTime());
+        orderDetailedDto.setDocUrl(entity.getDocUrl());
+        orderDetailedDto.setCodeUrl(entity.getCodeUrl());
+        orderDetailedDto.setResultUrl(entity.getResultUrl());
+        orderDetailedDto.setTimeCost(entity.getTimeCost() / 1000.0);
+        String documentComponent = entity.getDocumentComponent();
+        Object documentComponentObj = JSON.parse(documentComponent);
+        List<MatchEntity> matchEntities = new ArrayList<>();
+        orderDetailedDto.setDocumentComponent(matchEntities);
+        if (documentComponentObj instanceof List<?>) {
+            List<String> documentComponentList = (List<String>) documentComponentObj;
+            for (String component : documentComponentList) {
+                MatchEntity matchEntity = new MatchEntity();
+                matchEntity.setDocComponent(component);
+                OrderDetailDto detailDto = orderDetailMapper.getByComponentName(component);
+                if (Objects.nonNull(detailDto)) {
+                    matchEntity.setProbability(detailDto.getProbability());
+                    matchEntity.setCodeComponent(detailDto.getCodeComponent());
+                }
+                matchEntities.add(matchEntity);
+            }
+        }
+        return Results.ok(orderDetailedDto);
+    }
+
+    @Override
+    public Result getComponentSentences(String orderId, String componentName) {
+        List<String> sentences = componentDocPhrasesMapper.getByOrderIdAndComponentName(orderId, componentName);
+        return Results.ok(sentences);
+    }
+
+    @Override
+    public Result getOrderCodeComponents(String orderId) {
+        List<OrderDetailDto> byOrderId = orderDetailMapper.getByOrderId(orderId);
+        return Results.ok(byOrderId);
     }
 
     private Result checkUploadAvailable(MultipartFile file, String orderId, Integer userId, String[] acceptableFileExtensions) {

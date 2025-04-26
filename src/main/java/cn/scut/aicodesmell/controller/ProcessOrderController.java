@@ -73,4 +73,23 @@ public class ProcessOrderController {
         String uploadPath = System.getProperty("user.dir") + "/" + uploadFilePath;
         return processOrderService.downloadFile(uploadPath + fileName, orderId);
     }
+
+    @GetMapping("/detail")
+    public Result getOrderDetail(@RequestParam("orderId") String orderId) {
+        log.info("getOrderDetail, orderId: {}", orderId);
+        return processOrderService.getOrderDetail(orderId);
+    }
+
+    @GetMapping("/code_component")
+    public Result getOrderCodeComponents(@RequestParam("orderId") String orderId) {
+        log.info("getOrderDetail, orderId: {}", orderId);
+        return processOrderService.getOrderCodeComponents(orderId);
+    }
+
+    @GetMapping("/sentences")
+    public Result getComponentSentences(@RequestParam("orderId") String orderId,
+                                        @RequestParam("componentName") String componentName) {
+        log.info("getComponentSentences, orderId: {}, componentName： {}", orderId, componentName);
+        return processOrderService.getComponentSentences(orderId, componentName);
+    }
 }

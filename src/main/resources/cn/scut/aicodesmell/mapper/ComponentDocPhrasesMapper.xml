@@ -8,4 +8,11 @@
             (#{orderId}, #{componentName}, #{item})
         </foreach>
     </insert>
+
+    <select id="getByOrderIdAndComponentName" resultType="java.lang.String">
+        SELECT phrase
+        FROM component_doc_phrases
+        WHERE order_id = #{orderId}
+          AND component_name = #{componentName}
+    </select>
 </mapper>

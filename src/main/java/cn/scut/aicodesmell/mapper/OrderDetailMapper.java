@@ -19,4 +19,6 @@ public interface OrderDetailMapper {
     void deleteByIds(@Param("toDeleteIds") List<String> toDeleteIds);
 
     List<OrderDetailDto> getByOrderId(@Param("orderId") String orderId);
+
+    OrderDetailDto getByComponentName(@Param("component") String component);
 }

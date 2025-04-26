@@ -113,4 +113,11 @@
         WHERE order_id = #{orderId}
           AND deleted = FALSE
     </update>
+
+    <update id="updateStatusToProcessing">
+        UPDATE process_order
+        SET order_status = 'processing'
+        WHERE order_id = #{orderId}
+          AND deleted = FALSE
+    </update>
 </mapper>

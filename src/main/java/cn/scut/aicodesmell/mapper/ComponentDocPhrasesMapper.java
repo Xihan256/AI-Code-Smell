@@ -12,4 +12,6 @@ import java.util.List;
 public interface ComponentDocPhrasesMapper {
     void batchAdd(@Param("orderId") String orderId, @Param("componentName") String componentName,
                   @Param("phrasesMatching") List<String> phrasesMatching);
+
+    List<String> getByOrderIdAndComponentName(@Param("orderId") String orderId, @Param("componentName") String componentName);
 }

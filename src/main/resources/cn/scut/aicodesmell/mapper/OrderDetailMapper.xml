@@ -31,4 +31,11 @@
         WHERE order_id = #{orderId}
           AND deleted = FALSE;
     </select>
+
+    <select id="getByComponentName" resultType="cn.scut.aicodesmell.common.dto.OrderDetailDto">
+        SELECT order_id, code_component, component_name, probability
+        FROM order_detail
+        WHERE component_name = #{component}
+          AND deleted = FALSE;
+    </select>
 </mapper>

@@ -56,4 +56,29 @@ public interface ProcessOrderService {
      * @return ResponseEntity
      */
     ResponseEntity<?> downloadFile(String path, String orderId);
+
+    /**
+     * 获取订单详情
+     *
+     * @param orderId 订单id
+     * @return ResponseEntity
+     */
+    Result getOrderDetail(String orderId);
+
+    /**
+     * 获取组件出现的句子
+     *
+     * @param orderId       订单id
+     * @param componentName 组件name
+     * @return ResponseEntity
+     */
+    Result getComponentSentences(String orderId, String componentName);
+
+    /**
+     * 获取订单代码组件列表
+     *
+     * @param orderId 订单id
+     * @return ResponseEntity
+     */
+    Result getOrderCodeComponents(String orderId);
 }

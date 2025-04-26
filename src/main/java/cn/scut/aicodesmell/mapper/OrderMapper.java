@@ -42,4 +42,9 @@ public interface OrderMapper {
     void setResult(@Param("orderId") String orderId, @Param("resultUrl") String resultUrl,
                    @Param("jsonComponentsInDocument") String jsonComponentsInDocument,
                    @Param("timeCost") double timeCost);
+
+    /*
+     * 更新状态
+     */
+    void updateStatusToProcessing(@Param("orderId") String orderId);
 }
