@@ -47,4 +47,6 @@ public interface OrderMapper {
      * 更新状态
      */
     void updateStatusToProcessing(@Param("orderId") String orderId);
+
+    void setMainPkg(@Param("orderId") String orderId,@Param("mainPackage")  String mainPackage);
 }

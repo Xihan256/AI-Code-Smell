@@ -20,5 +20,5 @@ public interface OrderDetailMapper {
 
     List<OrderDetailDto> getByOrderId(@Param("orderId") String orderId);
 
-    OrderDetailDto getByComponentName(@Param("component") String component);
+    List<OrderDetailDto> getByComponentName(@Param("component") String component, @Param("orderId") String orderId);
 }

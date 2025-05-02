@@ -134,6 +134,7 @@ public class ProcessOrderServiceImpl implements ProcessOrderService {
         Processor processor = processors.get(algorithm);
         processor.generateResult(orderEntity.getDocUrl(), orderEntity.getCodeUrl());
         orderMapper.updateStatusToProcessing(orderId);
+        orderMapper.setMainPkg(orderId, mainPackage);
         return Results.ok("已提交任务");
     }
 
@@ -178,6 +179,7 @@ public class ProcessOrderServiceImpl implements ProcessOrderService {
         orderDetailedDto.setCodeUrl(entity.getCodeUrl());
         orderDetailedDto.setResultUrl(entity.getResultUrl());
         orderDetailedDto.setTimeCost(entity.getTimeCost() / 1000.0);
+        orderDetailedDto.setMainPackage(entity.getMainPackage());
         String documentComponent = entity.getDocumentComponent();
         Object documentComponentObj = JSON.parse(documentComponent);
         List<MatchEntity> matchEntities = new ArrayList<>();
@@ -187,11 +189,15 @@ public class ProcessOrderServiceImpl implements ProcessOrderService {
             for (String component : documentComponentList) {
                 MatchEntity matchEntity = new MatchEntity();
                 matchEntity.setDocComponent(component);
-                OrderDetailDto detailDto = orderDetailMapper.getByComponentName(component);
+                List<OrderDetailDto> detailDtos = orderDetailMapper.getByComponentName(component, orderId);
+                OrderDetailDto detailDto = detailDtos.isEmpty() ? new OrderDetailDto() : detailDtos.get(0);
                 if (Objects.nonNull(detailDto)) {
                     matchEntity.setProbability(detailDto.getProbability());
                     matchEntity.setCodeComponent(detailDto.getCodeComponent());
                 }
+                //聚合一下, 找三个句子塞里面
+                List<String> byOrderIdLim3 = componentDocPhrasesMapper.getByOrderIdLim3(orderId, component);
+                matchEntity.setDocComponentSentences(byOrderIdLim3);
                 matchEntities.add(matchEntity);
             }
         }

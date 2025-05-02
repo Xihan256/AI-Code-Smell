@@ -9,17 +9,18 @@ CREATE TABLE IF NOT EXISTS user
 
 CREATE TABLE IF NOT EXISTS process_order
 (
-    order_id           CHAR(64)  NOT NULL PRIMARY KEY,
+    order_id           CHAR(64)     NOT NULL PRIMARY KEY,
     order_name         TEXT COMMENT '订单名',
-    user_id            INT       NOT NULL,
-    create_time        TIMESTAMP NOT NULL                               DEFAULT CURRENT_TIMESTAMP,
+    user_id            INT          NOT NULL,
+    create_time        TIMESTAMP    NOT NULL                            DEFAULT CURRENT_TIMESTAMP,
     order_status       ENUM ('new', 'processing', 'failed', 'finished') DEFAULT 'new' COMMENT 'new=新建, processing=分析中, failed=分析失败, finished=分析成功',
     doc_url            VARCHAR(128),
     code_url           VARCHAR(128),
     result_url         VARCHAR(128),
-    deleted            TINYINT   NOT NULL                               DEFAULT 0,
-    document_component JSON      NULL COMMENT '文档里找到的组件的列表',
-    time_cost          BIGINT    NULL COMMENT '耗时',
+    deleted            TINYINT      NOT NULL                            DEFAULT 0,
+    document_component JSON         NULL COMMENT '文档里找到的组件的列表',
+    time_cost          BIGINT       NULL COMMENT '耗时',
+    main_package       VARCHAR(128) NULL COMMENT '主包',
     index idx_user_id (user_id)
 );
 

@@ -14,4 +14,6 @@ public interface ComponentDocPhrasesMapper {
                   @Param("phrasesMatching") List<String> phrasesMatching);
 
     List<String> getByOrderIdAndComponentName(@Param("orderId") String orderId, @Param("componentName") String componentName);
+
+    List<String> getByOrderIdLim3(@Param("orderId") String orderId, @Param("componentName") String componentName);
 }

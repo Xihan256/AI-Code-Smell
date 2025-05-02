@@ -27,11 +27,6 @@ public class BaseTest {
 //        Process exec = Runtime.getRuntime().exec(cmd);
 //
 //        exec.waitFor();
-        String jsonS = "[\"Storage Component\", \"E2E Component\", \"Client Component\", \"Test Driver\", \"test cases\", \"Driver\", \"main\", \"Common Component\", \"Driver Component\", \"Component tests\", \"E2E end component\", \"Common\", \"UI Component\", \"Storage\", \"component test cases\", \"UI\", \"Test\", \"Logic Component\", \"E2E\", \"end\", \"Logic\", \"Client\"]";
-        Object parse = JSON.parse(jsonS);
-        if (parse instanceof List<?>) {
-            List<String> l = (List<String>) parse;
-            System.out.println(l);
-        }
+        System.out.println(System.getProperty("os.name"));
     }
 }

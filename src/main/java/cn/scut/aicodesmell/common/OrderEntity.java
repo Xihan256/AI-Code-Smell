@@ -23,4 +23,5 @@ public class OrderEntity {
     private String resultUrl;
     private Double timeCost;
     private String documentComponent;
+    private String mainPackage;
 }

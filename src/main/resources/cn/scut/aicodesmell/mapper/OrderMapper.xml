@@ -16,7 +16,8 @@
                code_url,
                result_url,
                time_cost,
-               document_component
+               document_component,
+            main_package
         FROM process_order
         WHERE order_id = #{orderId}
           AND deleted = FALSE
@@ -46,7 +47,8 @@
                code_url,
                result_url,
                time_cost,
-               document_component
+               document_component,
+            main_package
         FROM process_order
         WHERE user_id = #{userId}
           AND deleted = FALSE
@@ -117,6 +119,13 @@
     <update id="updateStatusToProcessing">
         UPDATE process_order
         SET order_status = 'processing'
+        WHERE order_id = #{orderId}
+          AND deleted = FALSE
+    </update>
+
+    <update id="setMainPkg">
+        UPDATE process_order
+        SET main_package = #{mainPackage}
         WHERE order_id = #{orderId}
           AND deleted = FALSE
     </update>

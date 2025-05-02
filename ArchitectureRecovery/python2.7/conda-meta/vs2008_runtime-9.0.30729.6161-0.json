@@ -1,0 +1,96 @@
+{
+  "build": "0",
+  "build_number": 0,
+  "channel": "https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/win-64",
+  "constrains": [],
+  "depends": [],
+  "extracted_package_dir": "D:\\Tools\\Anaconda3_2021_11\\pkgs\\vs2008_runtime-9.0.30729.6161-0",
+  "features": "",
+  "files": [
+    "Library/bin/msvcm90.dll",
+    "Library/bin/msvcp90.dll",
+    "Library/bin/msvcr90.dll",
+    "Library/bin/vcomp90.dll",
+    "msvcm90.dll",
+    "msvcp90.dll",
+    "msvcr90.dll",
+    "vcomp90.dll"
+  ],
+  "fn": "vs2008_runtime-9.0.30729.6161-0.tar.bz2",
+  "license": "Proprietary",
+  "link": {
+    "source": "D:\\Tools\\Anaconda3_2021_11\\pkgs\\vs2008_runtime-9.0.30729.6161-0",
+    "type": 1
+  },
+  "md5": "9531fa584348748d666b66055c771182",
+  "name": "vs2008_runtime",
+  "package_tarball_full_path": "D:\\Tools\\Anaconda3_2021_11\\pkgs\\vs2008_runtime-9.0.30729.6161-0.tar.bz2",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/msvcm90.dll",
+        "path_type": "hardlink",
+        "sha256": "47b4e80f1173532365fceedaeeb495bdaefac4d362eb62bb92f4fea589d2c104",
+        "sha256_in_prefix": "47b4e80f1173532365fceedaeeb495bdaefac4d362eb62bb92f4fea589d2c104",
+        "size_in_bytes": 245760
+      },
+      {
+        "_path": "Library/bin/msvcp90.dll",
+        "path_type": "hardlink",
+        "sha256": "b3f4fda27430acc6d6bc1c3cbd518b9cae5ba0f22ab8917578a7f16270f94c8b",
+        "sha256_in_prefix": "b3f4fda27430acc6d6bc1c3cbd518b9cae5ba0f22ab8917578a7f16270f94c8b",
+        "size_in_bytes": 853328
+      },
+      {
+        "_path": "Library/bin/msvcr90.dll",
+        "path_type": "hardlink",
+        "sha256": "5330682ae9c08e5f2e30c5e256b91028389bbbddaa8c38950df76616fca854ff",
+        "sha256_in_prefix": "5330682ae9c08e5f2e30c5e256b91028389bbbddaa8c38950df76616fca854ff",
+        "size_in_bytes": 641360
+      },
+      {
+        "_path": "Library/bin/vcomp90.dll",
+        "path_type": "hardlink",
+        "sha256": "eea76d9dff3d55a3dedd959d25e2eff5741c9b33777fd13b5b4ce5379658a4d3",
+        "sha256_in_prefix": "eea76d9dff3d55a3dedd959d25e2eff5741c9b33777fd13b5b4ce5379658a4d3",
+        "size_in_bytes": 56656
+      },
+      {
+        "_path": "msvcm90.dll",
+        "path_type": "hardlink",
+        "sha256": "47b4e80f1173532365fceedaeeb495bdaefac4d362eb62bb92f4fea589d2c104",
+        "sha256_in_prefix": "47b4e80f1173532365fceedaeeb495bdaefac4d362eb62bb92f4fea589d2c104",
+        "size_in_bytes": 245760
+      },
+      {
+        "_path": "msvcp90.dll",
+        "path_type": "hardlink",
+        "sha256": "b3f4fda27430acc6d6bc1c3cbd518b9cae5ba0f22ab8917578a7f16270f94c8b",
+        "sha256_in_prefix": "b3f4fda27430acc6d6bc1c3cbd518b9cae5ba0f22ab8917578a7f16270f94c8b",
+        "size_in_bytes": 853328
+      },
+      {
+        "_path": "msvcr90.dll",
+        "path_type": "hardlink",
+        "sha256": "5330682ae9c08e5f2e30c5e256b91028389bbbddaa8c38950df76616fca854ff",
+        "sha256_in_prefix": "5330682ae9c08e5f2e30c5e256b91028389bbbddaa8c38950df76616fca854ff",
+        "size_in_bytes": 641360
+      },
+      {
+        "_path": "vcomp90.dll",
+        "path_type": "hardlink",
+        "sha256": "eea76d9dff3d55a3dedd959d25e2eff5741c9b33777fd13b5b4ce5379658a4d3",
+        "sha256_in_prefix": "eea76d9dff3d55a3dedd959d25e2eff5741c9b33777fd13b5b4ce5379658a4d3",
+        "size_in_bytes": 56656
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "5fe2fc1fea05e33560b414792ef9b3107c5471a6554e35195f3b79c4b08b1c13",
+  "size": 1097648,
+  "subdir": "win-64",
+  "track_features": "",
+  "url": "https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/win-64/vs2008_runtime-9.0.30729.6161-0.tar.bz2",
+  "version": "9.0.30729.6161"
+}

@@ -23,4 +23,5 @@ public class OrderDetailedDto {
     private String resultUrl;
     private Double timeCost;
     private List<MatchEntity> documentComponent;
+    private String mainPackage;
 }

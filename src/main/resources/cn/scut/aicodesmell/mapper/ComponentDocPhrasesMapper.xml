@@ -15,4 +15,12 @@
         WHERE order_id = #{orderId}
           AND component_name = #{componentName}
     </select>
+
+    <select id="getByOrderIdLim3" resultType="java.lang.String">
+        SELECT phrase
+        FROM component_doc_phrases
+        WHERE order_id = #{orderId}
+          AND component_name = #{componentName}
+        LIMIT 3
+    </select>
 </mapper>
