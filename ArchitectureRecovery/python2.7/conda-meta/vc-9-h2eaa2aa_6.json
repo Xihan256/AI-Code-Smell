@@ -1,0 +1,35 @@
+{
+  "build": "h2eaa2aa_6",
+  "build_number": 6,
+  "channel": "https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/win-64",
+  "constrains": [],
+  "depends": [
+    "vs2008_runtime >=9.0.30729.1,<10.0a0"
+  ],
+  "extracted_package_dir": "D:\\Tools\\Anaconda3_2021_11\\pkgs\\vc-9-h2eaa2aa_6",
+  "features": "",
+  "files": [],
+  "fn": "vc-9-h2eaa2aa_6.conda",
+  "legacy_bz2_md5": "411917982eabbf6ab1f50ed79b578e3c",
+  "license": "Modified BSD License (3-clause)",
+  "license_family": "BSD",
+  "link": {
+    "source": "D:\\Tools\\Anaconda3_2021_11\\pkgs\\vc-9-h2eaa2aa_6",
+    "type": 1
+  },
+  "md5": "9facb65cb12facfde4677b7bbccb2f71",
+  "name": "vc",
+  "package_tarball_full_path": "D:\\Tools\\Anaconda3_2021_11\\pkgs\\vc-9-h2eaa2aa_6.conda",
+  "paths_data": {
+    "paths": [],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "5ccb132ba27904b9348dcb81d2fe0d699f5f08e1cdcafbf5b4261e2cc12626f6",
+  "size": 4874,
+  "subdir": "win-64",
+  "timestamp": 1642409032887,
+  "track_features": "",
+  "url": "https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/win-64/vc-9-h2eaa2aa_6.conda",
+  "version": "9"
+}

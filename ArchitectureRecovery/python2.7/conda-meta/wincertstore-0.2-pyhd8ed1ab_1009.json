@@ -1,0 +1,92 @@
+{
+  "build": "pyhd8ed1ab_1009",
+  "build_number": 1009,
+  "channel": "https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/noarch",
+  "constrains": [],
+  "depends": [
+    "__win",
+    "python >=2.7"
+  ],
+  "extracted_package_dir": "D:\\Tools\\Anaconda3_2021_11\\pkgs\\wincertstore-0.2-pyhd8ed1ab_1009",
+  "features": "",
+  "files": [
+    "Lib/site-packages/wincertstore-0.2-py3.11.egg-info/PKG-INFO",
+    "Lib/site-packages/wincertstore-0.2-py3.11.egg-info/SOURCES.txt",
+    "Lib/site-packages/wincertstore-0.2-py3.11.egg-info/dependency_links.txt",
+    "Lib/site-packages/wincertstore-0.2-py3.11.egg-info/installed-files.txt",
+    "Lib/site-packages/wincertstore-0.2-py3.11.egg-info/top_level.txt",
+    "Lib/site-packages/wincertstore.py",
+    "Lib/site-packages/wincertstore.pyc"
+  ],
+  "fn": "wincertstore-0.2-pyhd8ed1ab_1009.tar.bz2",
+  "license": "PSF-2.0",
+  "license_family": "PSF",
+  "link": {
+    "source": "D:\\Tools\\Anaconda3_2021_11\\pkgs\\wincertstore-0.2-pyhd8ed1ab_1009",
+    "type": 1
+  },
+  "md5": "d53c025a0c6a3cace3a850d33d30facf",
+  "name": "wincertstore",
+  "noarch": "python",
+  "package_tarball_full_path": "D:\\Tools\\Anaconda3_2021_11\\pkgs\\wincertstore-0.2-pyhd8ed1ab_1009.tar.bz2",
+  "package_type": "noarch_python",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "site-packages/wincertstore-0.2-py3.11.egg-info/PKG-INFO",
+        "path_type": "hardlink",
+        "sha256": "1ad37b968b7a977dc59551920d0a07c7ec0958ee95ccd5702736ca3a51bfe069",
+        "sha256_in_prefix": "1ad37b968b7a977dc59551920d0a07c7ec0958ee95ccd5702736ca3a51bfe069",
+        "size_in_bytes": 5858
+      },
+      {
+        "_path": "site-packages/wincertstore-0.2-py3.11.egg-info/SOURCES.txt",
+        "path_type": "hardlink",
+        "sha256": "8e78672aef555032dd7c5474e80914d86117a287413bdb92f31a64e56f9d1134",
+        "sha256_in_prefix": "8e78672aef555032dd7c5474e80914d86117a287413bdb92f31a64e56f9d1134",
+        "size_in_bytes": 249
+      },
+      {
+        "_path": "site-packages/wincertstore-0.2-py3.11.egg-info/dependency_links.txt",
+        "path_type": "hardlink",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "size_in_bytes": 1
+      },
+      {
+        "_path": "site-packages/wincertstore-0.2-py3.11.egg-info/installed-files.txt",
+        "path_type": "hardlink",
+        "sha256": "3e25672cb0ec53e3dfec6a42e84c3303bb157246b9b9dd8c2fdca102e19901e6",
+        "sha256_in_prefix": "3e25672cb0ec53e3dfec6a42e84c3303bb157246b9b9dd8c2fdca102e19901e6",
+        "size_in_bytes": 125
+      },
+      {
+        "_path": "site-packages/wincertstore-0.2-py3.11.egg-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "6330b5e881ddc7bc6ee0401f560a34224fa8bccd55c87c4dde05cc959451dbe3",
+        "sha256_in_prefix": "6330b5e881ddc7bc6ee0401f560a34224fa8bccd55c87c4dde05cc959451dbe3",
+        "size_in_bytes": 13
+      },
+      {
+        "_path": "site-packages/wincertstore.py",
+        "path_type": "hardlink",
+        "sha256": "9eb1879f68dcdd125eb0ed737ed331f16e335a6a5208ec9f26fd3dd6220cfd08",
+        "sha256_in_prefix": "9eb1879f68dcdd125eb0ed737ed331f16e335a6a5208ec9f26fd3dd6220cfd08",
+        "size_in_bytes": 11873
+      },
+      {
+        "_path": "Lib/site-packages/wincertstore.pyc",
+        "path_type": "pyc_file"
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "04eaf1b295080ee5bd2ca7693986b02608c0e0563f662e0ffc314106d1509463",
+  "size": 11772,
+  "subdir": "noarch",
+  "timestamp": 1666777128617,
+  "track_features": "",
+  "url": "https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/noarch/wincertstore-0.2-pyhd8ed1ab_1009.tar.bz2",
+  "version": "0.2"
+}

@@ -1,0 +1,37 @@
+{
+  "build": "1_cp27m",
+  "build_number": 1,
+  "channel": "https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/win-64",
+  "constrains": [
+    "pypy <0a0",
+    "python_abi * *_cp27m"
+  ],
+  "depends": [
+    "python 2.7.*"
+  ],
+  "extracted_package_dir": "D:\\Tools\\Anaconda3_2021_11\\pkgs\\python_abi-2.7-1_cp27m",
+  "features": "",
+  "files": [],
+  "fn": "python_abi-2.7-1_cp27m.tar.bz2",
+  "license": "BSD-3-Clause",
+  "license_family": "BSD",
+  "link": {
+    "source": "D:\\Tools\\Anaconda3_2021_11\\pkgs\\python_abi-2.7-1_cp27m",
+    "type": 1
+  },
+  "md5": "fddbee5a4d47d5b55bcb3c209b91ca80",
+  "name": "python_abi",
+  "package_tarball_full_path": "D:\\Tools\\Anaconda3_2021_11\\pkgs\\python_abi-2.7-1_cp27m.tar.bz2",
+  "paths_data": {
+    "paths": [],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "f3ac402b01ae6e5b7d8f2d3d49bba7d1e2345aa74dca40b1e70736e5b36aaaeb",
+  "size": 3712,
+  "subdir": "win-64",
+  "timestamp": 1583344776806,
+  "track_features": "",
+  "url": "https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/win-64/python_abi-2.7-1_cp27m.tar.bz2",
+  "version": "2.7"
+}

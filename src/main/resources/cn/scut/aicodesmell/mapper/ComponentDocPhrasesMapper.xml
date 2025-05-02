@@ -1,0 +1,26 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.scut.aicodesmell.mapper.ComponentDocPhrasesMapper">
+    <insert id="batchAdd">
+        INSERT INTO component_doc_phrases(order_id, component_name, phrase)
+        VALUES
+        <foreach collection="phrasesMatching" item="item" separator=",">
+            (#{orderId}, #{componentName}, #{item})
+        </foreach>
+    </insert>
+
+    <select id="getByOrderIdAndComponentName" resultType="java.lang.String">
+        SELECT phrase
+        FROM component_doc_phrases
+        WHERE order_id = #{orderId}
+          AND component_name = #{componentName}
+    </select>
+
+    <select id="getByOrderIdLim3" resultType="java.lang.String">
+        SELECT phrase
+        FROM component_doc_phrases
+        WHERE order_id = #{orderId}
+          AND component_name = #{componentName}
+        LIMIT 3
+    </select>
+</mapper>

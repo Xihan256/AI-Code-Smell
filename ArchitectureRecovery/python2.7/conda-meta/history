@@ -1,0 +1,13 @@
+==> 2023-03-25 19:13:14 <==
+# cmd: D:\Tools\Anaconda3_2021_11\Scripts\conda-script.py create -n pkg python=2.7
+# conda version: 4.10.3
++https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/noarch::wincertstore-0.2-pyhd8ed1ab_1009
++https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/win-64::pip-20.0.2-py27_1
++https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/win-64::python-2.7.15-h2880e7c_1011_cpython
++https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/win-64::python_abi-2.7-1_cp27m
++https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/win-64::vs2008_runtime-9.0.30729.6161-0
++https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/win-64::wheel-0.34.2-py27_0
++https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/win-64::certifi-2016.2.28-py27_0
++https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/win-64::setuptools-36.4.0-py27_1
++https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/win-64::vc-9-h2eaa2aa_6
+# update specs: ['python=2.7']
